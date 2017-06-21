@@ -265,7 +265,7 @@ class Process(metaclass=ABCMeta):
 
         :param needle_buffer: The value to search for. This should be a ctypes object of the same
                 sorts as used by .read_memory(...), which will be compared to the contents of
-                memory at each acessible address.
+                memory at each accessible address.
         :param writeable_only: If True, only search regions where the process has write access.
         :return: List of addresses where the needle_buffer was found.
         """

@@ -1,7 +1,7 @@
 """
 mem_edit
 
-mem_edit is a multiplatform (Windows and Linux) python package for
+mem_edit is a multi-platform (Windows and Linux) python package for
   reading, writing, and searching in the working memory of running
   programs.
 

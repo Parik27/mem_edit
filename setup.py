@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 setup(name='mem_edit',
       version='0.1',
-      description='Multiplatform library for memory editing',
+      description='Multi-platform library for memory editing',
       author='Jan Petykiewicz',
       author_email='anewusername@gmail.com',
       url='https://mpxd.net/gogs/jan/mem_edit',

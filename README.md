@@ -1,6 +1,6 @@
 # mem_edit 
 
-**mem_edit** is a multiplatform memory editing library written in Python.
+**mem_edit** is a multi-platform memory editing library written in Python.
 
 
 **Capabilities:**
@@ -22,7 +22,7 @@
 * typing (for type annotations) 
 
 
-Install with pip, from pypi (preferred):
+Install with pip, from PyPI (preferred):
 ```bash
 pip install mem_edit
 ```
