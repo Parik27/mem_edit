@@ -168,8 +168,6 @@ class Process(AbstractProcess):
         #  of 100, repeatedly double the number until we get fewer than we asked for.
         
         n = 100
-        num_returned = n
-
         returned_size = ctypes.wintypes.DWORD()
         returned_size_ptr = ctypes.byref(returned_size)
 
