@@ -80,6 +80,7 @@ class MEMORY_BASIC_INFORMATION(ctypes.Structure):
             ('Type', ctypes.wintypes.DWORD),
             ]
 
+
 # C struct for GetSystemInfo
 class SYSTEM_INFO(ctypes.Structure):
     _fields_ = [
