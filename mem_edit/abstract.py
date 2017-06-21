@@ -206,7 +206,7 @@ class Process(metaclass=ABCMeta):
     def get_pid_by_name(target_name: str) -> int or None:
         """
         Attempt to return the process id (pid) of a process which was run with an executable
-          file with the provided name.
+          file with the provided name. If no process is found, return None.
 
         This is a convenience method for quickly finding a process which is already known
           to be unique and has a well-defined executable name.
@@ -214,6 +214,7 @@ class Process(metaclass=ABCMeta):
         Don't rely on this method if you can possibly avoid it, since it makes no
           attempt to confirm that it found a unique process and breaks trivially (e.g. if the
           executable file is renamed).
+        :return: Process id (pid) of a process with the provided name, or None.
         """
         pass 
     

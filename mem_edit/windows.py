@@ -193,7 +193,7 @@ class Process(AbstractProcess):
         return pids[:num_returned]
 
     @staticmethod
-    def get_pid_by_name(target_name: str) -> int:
+    def get_pid_by_name(target_name: str) -> int or None:
         for pid in Process.list_available_pids():
             try:
                 logger.info('Checking name for pid {}'.format(pid))

@@ -91,7 +91,7 @@ class Process(AbstractProcess):
         return pids
 
     @staticmethod
-    def get_pid_by_name(target_name: str) -> int:
+    def get_pid_by_name(target_name: str) -> int or None:
         for pid in Process.list_available_pids():
             try:
                 logger.info('Checking name for pid {}'.format(pid))
@@ -123,5 +123,3 @@ class Process(AbstractProcess):
                 start, stop = (int(bound, 16) for bound in bounds.split('-'))
                 regions.append((start, stop))
         return regions
-
-
