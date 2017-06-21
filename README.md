@@ -2,6 +2,7 @@
 
 **mem_edit** is a multi-platform memory editing library written in Python.
 
+**Homepage:** https://mpxd.net/gogs/jan/mem_edit
 
 **Capabilities:**
 * Scan all readable memory used by a process.
