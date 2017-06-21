@@ -11,12 +11,12 @@ To get started, try:
     help(Process)
 
 """
-__author__ = 'Jan Petykiewicz'
-
-
 import platform
 
 from .utils import MemEditError
+
+
+__author__ = 'Jan Petykiewicz'
 
 
 system = platform.system()

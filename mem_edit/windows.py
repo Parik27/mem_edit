@@ -211,12 +211,12 @@ class Process(AbstractProcess):
         return None
 
     def list_mapped_regions(self, writeable_only: bool = True) -> List[Tuple[int, int]]:
-        sysinfo = SYSTEM_INFO()
-        sysinfo_ptr = ctypes.byref(sysinfo)
-        ctypes.windll.kernel32.GetSystemInfo(sysinfo_ptr)
+        sys_info = SYSTEM_INFO()
+        sys_info_ptr = ctypes.byref(sys_info)
+        ctypes.windll.kernel32.GetSystemInfo(sys_info_ptr)
 
-        start = sysinfo.lpMinimumApplicationAddress
-        stop = sysinfo.lpMaximumApplicationAddress
+        start = sys_info.lpMinimumApplicationAddress
+        stop = sys_info.lpMaximumApplicationAddress
 
         def get_mem_info(address):
             """
@@ -236,7 +236,7 @@ class Process(AbstractProcess):
             if success != mbi_size:
                 if success == 0:
                     raise MemEditError('Failed VirtualQueryEx with handle ' +
-                                    '{}: {}'.format(self.process_handle, self._get_last_error()))
+                                       '{}: {}'.format(self.process_handle, self._get_last_error()))
                 else:
                     raise MemEditError('VirtualQueryEx output too short!')
 

@@ -43,10 +43,10 @@ def ptrace(command: int, pid: int = 0, arg1: int = 0, arg2: int = 0) -> int:
     logger.debug('ptrace({}, {}, {}, {})'.format(command, pid, arg1, arg2)) 
     result = _ptrace(command, pid, arg1, arg2)
     if result == -1:
-        errno = ctypes.get_errno()
-        if errno:
+        err_no = ctypes.get_errno()
+        if err_no:
             raise MemEditError('ptrace({}, {}, {}, {})'.format(command, pid, arg1, arg2) +
-                               ' failed with error {}: {}'.format(errno, strerror(errno)))
+                               ' failed with error {}: {}'.format(err_no, strerror(err_no)))
     return result
 
 
@@ -75,8 +75,8 @@ class Process(AbstractProcess):
 
     def get_path(self) -> str:
         try:
-           with open('/proc/{}/cmdline', 'rb') as f:
-               return f.read().decode().split('\x00')[0]
+            with open('/proc/{}/cmdline', 'rb') as f:
+                return f.read().decode().split('\x00')[0]
         except FileNotFoundError:
             return '' 
 

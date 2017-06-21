@@ -235,9 +235,9 @@ class Process(metaclass=ABCMeta):
         :param targets: List of (offset, read_buffer) pairs which will be read from the struct.
         :return: List of read values corresponding to the provided targets.
         """
-        base = self.read_memory(base_address, ctypes.c_void_p())
-        vals = [self.read_memory(base + offset, buffer) for offset, buffer in targets]
-        return vals
+        base = self.read_memory(base_address, ctypes.c_void_p()).value
+        values = [self.read_memory(base + offset, buffer) for offset, buffer in targets]
+        return values
 
     def search_addresses(self, addresses: List[int], needle_buffer: ctypes_buffer_t) -> List[int]:
         """
@@ -253,10 +253,10 @@ class Process(metaclass=ABCMeta):
         found = []
         read_buffer = copy.copy(needle_buffer)
 
-        for addr in addresses:
-            read = self.read_memory(addr, read_buffer)
+        for address in addresses:
+            read = self.read_memory(address, read_buffer)
             if ctypes_equal(needle_buffer, read):
-                found.append(addr)
+                found.append(address)
         return found
 
     def search_all_memory(self, needle_buffer, writeable_only=True) -> List[int]:

@@ -8,7 +8,7 @@ setup(name='mem_edit',
       author='Jan Petykiewicz',
       author_email='anewusername@gmail.com',
       url='https://mpxd.net/gogs/jan/mem_edit',
-      keywords = [
+      keywords=[
             'memory',
             'edit',
             'editing',
@@ -25,7 +25,7 @@ setup(name='mem_edit',
             'cheat',
             'trainer',
       ],
-      classifiers = [
+      classifiers=[
             'Programming Language :: Python',
             'Programming Language :: Python :: 3',
             'Development Status :: 4 - Beta',
