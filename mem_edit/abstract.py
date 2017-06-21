@@ -9,7 +9,7 @@ import copy
 import ctypes
 import logging
 
-from .utils import ctypes_buffer_t, search_buffer
+from .utils import ctypes_buffer_t, search_buffer, ctypes_equal
 
 
 logging.basicConfig(level=logging.INFO)
