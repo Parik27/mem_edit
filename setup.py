@@ -7,7 +7,7 @@ setup(name='mem_edit',
       description='Multi-platform library for memory editing',
       author='Jan Petykiewicz',
       author_email='anewusername@gmail.com',
-      url='https://mpxd.net/gogs/jan/mem_edit',
+      url='https://mpxd.net/code/jan/mem_edit',
       keywords=[
             'memory',
             'edit',

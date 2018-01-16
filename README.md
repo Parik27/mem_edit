@@ -2,7 +2,7 @@
 
 **mem_edit** is a multi-platform memory editing library written in Python.
 
-**Homepage:** https://mpxd.net/gogs/jan/mem_edit
+**Homepage:** https://mpxd.net/code/jan/mem_edit
 
 **Capabilities:**
 * Scan all readable memory used by a process.
@@ -30,7 +30,7 @@ pip install mem_edit
 
 Install with pip from git repository
 ```bash
-pip install git+https://mpxd.net/gogs/jan/mem_edit.git@release
+pip install git+https://mpxd.net/code/jan/mem_edit.git@release
 ```
 
 
