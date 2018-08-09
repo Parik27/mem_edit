@@ -32,36 +32,36 @@ class Process(metaclass=ABCMeta):
     Once you have found the pid, you are ready to construct an instance of Process
       and use it to read and write to memory. Once you are done with the process,
       use .close() to free up the process for access by other debuggers etc.
-        
-        p = Process.open(1239)
+
+        p = Process(1239)
         p.close()
 
     To read/write to memory, first create a buffer using ctypes:
-      
+
         buffer0 = (ctypes.c_byte * 5)(39, 50, 03, 40, 30)
         buffer1 = ctypes.c_ulong()
-      
-      and then use 
-      
+
+      and then use
+
         p.write_memory(0x2fe, buffer0)
-        
+
         val0 = p.read_memory(0x220, buffer0)[:]
-        
+
         val1a = p.read_memory(0x149, buffer1).value
         val2b = buffer1.value
         assert(val1a == val2b)
-    
+
     Searching for a value can be done in a number of ways:
       Search a list of addresses:
         found_addresses = p.search_addresses([0x1020, 0x1030], buffer0)
       Search the entire memory space:
         found_addresses = p.search_all_memory(buffer0, writeable_only=False)
 
-    You can also get a list of which regions in memory are mapped (readable): 
+    You can also get a list of which regions in memory are mapped (readable):
         regions = p.list_mapped_regions(writeable_only=False)
 
       which can be used along with search_buffer(...) to re-create .search_all_memory(...):
-        
+
         found = []
         for region_start, region_stop in regions:
             region_buffer = (ctypes.c_byte * (region_stop - region_start))()
@@ -69,15 +69,15 @@ class Process(metaclass=ABCMeta):
             found += utils.search_buffer(ctypes.c_ulong(123456790), region_buffer)
 
     Other useful methods include the context manager, implemented as a static method:
-      
+
         with Process.open_process(pid) as p:
             # use p here, no need to call p.close()
-      
+
       .get_path(), which reports the path of the executable file which was used
       to start the process:
-      
+
         executable_path = p.get_path()
-      
+
       and deref_struct_pointer, which takes a pointer to a struct and reads out the struct members:
 
         # struct is a list of (offset, buffer) pairs
@@ -86,7 +86,7 @@ class Process(metaclass=ABCMeta):
         values = p.deref_struct_pointer(0x0feab4, struct_defintion)
 
       which is shorthand for
-        
+
         struct_addr = p.read_memory(0x0feab4, ctypes.c_void_p())
         values = [p.read_memory(struct_addr + 0x0, ctypes.c_ulong()),
                   p.read_memory(struct_addr + 0x20, ctypes.c_byte())]
@@ -168,14 +168,14 @@ class Process(metaclass=ABCMeta):
         :returns: read_buffer is returned as well as being overwritten.
         """
         pass
-    
+
     @abstractmethod
     def list_mapped_regions(self, writeable_only=True) -> List[Tuple[int, int]]:
         """
         Return a list of (start_address, stop_address) for the regions of the address space
           accessible to (readable and possibly writable by) the process.
         By default, this function does not return non-writeable regions.
-        
+
         :param writeable_only: If True, only return regions which are also writeable.
                 Default true.
         :return: List of (start_address, stop_address) for each accessible memory region.
@@ -197,7 +197,7 @@ class Process(metaclass=ABCMeta):
         """
         Return a list of all process ids (pids) accessible on this system.
 
-        :return: List of running process ids. 
+        :return: List of running process ids.
         """
         pass
 
@@ -216,8 +216,8 @@ class Process(metaclass=ABCMeta):
           executable file is renamed).
         :return: Process id (pid) of a process with the provided name, or None.
         """
-        pass 
-    
+        pass
+
     def deref_struct_pointer(self,
                              base_address: int,
                              targets: List[Tuple[int, ctypes_buffer_t]],
@@ -279,7 +279,7 @@ class Process(metaclass=ABCMeta):
             except OSError:
                 logger.error('Failed to read in range  0x{} - 0x{}'.format(start, stop))
         return found
-    
+
     @classmethod
     @contextmanager
     def open_process(cls, process_id: int) -> 'Process':
