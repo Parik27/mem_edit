@@ -25,12 +25,12 @@
 
 Install with pip, from PyPI (preferred):
 ```bash
-pip install mem_edit
+pip3 install mem_edit
 ```
 
 Install with pip from git repository
 ```bash
-pip install git+https://mpxd.net/code/jan/mem_edit.git@release
+pip3 install git+https://mpxd.net/code/jan/mem_edit.git@release
 ```
 
 
