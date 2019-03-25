@@ -9,7 +9,8 @@ import copy
 import ctypes
 import logging
 
-from .utils import ctypes_buffer_t, search_buffer, ctypes_equal
+from . import utils
+from .utils import ctypes_buffer_t
 
 
 logging.basicConfig(level=logging.INFO)
@@ -240,7 +241,7 @@ class Process(metaclass=ABCMeta):
         values = [self.read_memory(base + offset, buffer) for offset, buffer in targets]
         return values
 
-    def search_addresses(self, addresses: List[int], needle_buffer: ctypes_buffer_t) -> List[int]:
+    def search_addresses(self, addresses: List[int], needle_buffer: ctypes_buffer_t, verbatim: bool=True) -> List[int]:
         """
         Search for the provided value at each of the provided addresses, and return the addresses
           where it is found.
@@ -249,18 +250,26 @@ class Process(metaclass=ABCMeta):
         :param needle_buffer: The value to search for. This should be a ctypes object of the same
                 sorts as used by .read_memory(...), which will be compared to the contents of
                 memory at each of the given addresses.
+        :param verbatim: If True, perform bitwise comparison when searching for needle_buffer.
+                If False, perform utils.ctypes_equal-based comparison. Default True.
         :return: List of addresses where the needle_buffer was found.
         """
         found = []
         read_buffer = copy.copy(needle_buffer)
 
+        if verbatim:
+            def compare(a, b):
+                return bytes(read_buffer) == bytes(needle_buffer)
+        else:
+            compare = utils.ctypes_equal
+
         for address in addresses:
-            read = self.read_memory(address, read_buffer)
-            if ctypes_equal(needle_buffer, read):
+            self.read_memory(address, read_buffer)
+            if compare(needle_buffer, read_buffer):
                 found.append(address)
         return found
 
-    def search_all_memory(self, needle_buffer, writeable_only=True) -> List[int]:
+    def search_all_memory(self, needle_buffer: ctypes_buffer_t, writeable_only: bool=True, verbatim: bool=True) -> List[int]:
         """
         Search the entire memory space accessible to the process for the provided value.
 
@@ -268,14 +277,22 @@ class Process(metaclass=ABCMeta):
                 sorts as used by .read_memory(...), which will be compared to the contents of
                 memory at each accessible address.
         :param writeable_only: If True, only search regions where the process has write access.
+                Default True.
+        :param verbatim: If True, perform bitwise comparison when searching for needle_buffer.
+                If False, perform utils.ctypes_equal-based comparison. Default True.
         :return: List of addresses where the needle_buffer was found.
         """
         found = []
+        if verbatim:
+            search = utils.search_buffer_verbatim
+        else:
+            search = utils.search_buffer
+
         for start, stop in self.list_mapped_regions(writeable_only):
             try:
                 region_buffer = (ctypes.c_byte * (stop - start))()
                 self.read_memory(start, region_buffer)
-                found += [offset + start for offset in search_buffer(needle_buffer, region_buffer)]
+                found += [offset + start for offset in search(needle_buffer, region_buffer)]
             except OSError:
                 logger.error('Failed to read in range  0x{} - 0x{}'.format(start, stop))
         return found
