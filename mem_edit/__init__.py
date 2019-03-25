@@ -17,6 +17,7 @@ from .utils import MemEditError
 
 
 __author__ = 'Jan Petykiewicz'
+version = '0.2'
 
 
 system = platform.system()

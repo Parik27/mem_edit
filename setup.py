@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from setuptools import setup, find_packages
+import mem_edit
 
 
 with open('README.md', 'r') as f:
@@ -8,7 +9,7 @@ with open('README.md', 'r') as f:
 
 
 setup(name='mem_edit',
-      version='0.1',
+      version=mem_edit.version,
       description='Multi-platform library for memory editing',
       long_description=long_description,
       long_description_content_type='text/markdown',
