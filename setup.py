@@ -2,9 +2,16 @@
 
 from setuptools import setup, find_packages
 
+
+with open('README.md', 'r') as f:
+    long_description = f.read()
+
+
 setup(name='mem_edit',
       version='0.1',
       description='Multi-platform library for memory editing',
+      long_description=long_description,
+      long_description_content_type='text/markdown',
       author='Jan Petykiewicz',
       author_email='anewusername@gmail.com',
       url='https://mpxd.net/code/jan/mem_edit',
