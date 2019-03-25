@@ -51,7 +51,6 @@ setup(name='mem_edit',
       ],
       packages=find_packages(),
       install_requires=[
-            'ctypes',
             'typing',
       ],
       extras_require={
