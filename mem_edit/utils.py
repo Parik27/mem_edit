@@ -23,9 +23,32 @@ class MemEditError(Exception):
     pass
 
 
+def search_buffer_verbatim(needle_buffer: ctypes_buffer_t, haystack_buffer: ctypes_buffer_t) -> List[int]:
+    """
+    Search for a buffer inside another buffer, using a direct (bitwise) comparison
+
+    :param needle_buffer: Buffer to search for.
+    :param haystack_buffer: Buffer to search in.
+    :return: List of offsets where the needle_buffer was found.
+    """
+    found = []
+
+    haystack = bytes(haystack_buffer)
+    needle = bytes(needle_buffer)
+
+    start = 0
+    result = haystack.find(needle, start)
+    while start < len(haystack) and result != -1:
+        found.append(result)
+        start = result + 1
+        result = haystack.find(needle, start)
+    return found
+
+
 def search_buffer(needle_buffer: ctypes_buffer_t, haystack_buffer: ctypes_buffer_t) -> List[int]:
     """
-    Search for a buffer inside another buffer.
+    Search for a buffer inside another buffer, using ctypes_equal for comparison.
+    Much slower than search_buffer_verbatim.
 
     :param needle_buffer: Buffer to search for.
     :param haystack_buffer: Buffer to search in.
@@ -46,7 +69,7 @@ def ctypes_equal(a: ctypes_buffer_t, b: ctypes_buffer_t) -> bool:
     """
     if not type(a) == type(b):
         return False
-    
+
     if isinstance(a, ctypes.Array):
         return a[:] == b[:]
     elif isinstance(a, ctypes.Structure) or isinstance(a, ctypes.Union):
