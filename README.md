@@ -18,7 +18,7 @@
 ## Installation
 
 **Dependencies:**
-* python 3 (written and tested with 3.5) 
+* python 3 (written and tested with 3.7)
 * ctypes 
 * typing (for type annotations) 
 
