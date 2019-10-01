@@ -19,8 +19,8 @@
 
 **Dependencies:**
 * python 3 (written and tested with 3.7)
-* ctypes 
-* typing (for type annotations) 
+* ctypes
+* typing (for type annotations)
 
 
 Install with pip, from PyPI (preferred):
@@ -55,7 +55,7 @@ Increment a magic number (unsigned long 1234567890) found in 'magic.exe':
     pid = Process.get_pid_by_name('magic.exe')
     with Process.open_process(pid) as p:
         addrs = p.search_all_memory(magic_number)
-        
+
         # We don't want to edit if there's more than one result...
         assert(len(addrs) == 1)
 
@@ -104,7 +104,7 @@ Read and alter a structure:
         s = MyStruct()
         s.first_member = 1234567890
         s.second_member = 0x1234
-    
+
         addrs = p.search_all_memory(s)
         print(addrs)
 
