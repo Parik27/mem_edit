@@ -34,7 +34,6 @@ setup(name='mem_edit',
             'trainer',
       ],
       classifiers=[
-            'Programming Language :: Python',
             'Programming Language :: Python :: 3',
             'Development Status :: 4 - Beta',
             'Environment :: Other Environment',
