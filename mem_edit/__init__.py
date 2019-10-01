@@ -12,12 +12,16 @@ To get started, try:
 
 """
 import platform
+import pathlib
 
 from .utils import MemEditError
 
 
 __author__ = 'Jan Petykiewicz'
-version = '0.2'
+
+with open(pathlib.Path(__file__).parent / 'VERSION', 'r') as f:
+    __version__ = f.read().strip()
+version = __version__
 
 
 system = platform.system()

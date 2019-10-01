@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
 from setuptools import setup, find_packages
-import mem_edit
-
 
 with open('README.md', 'r') as f:
     long_description = f.read()
 
+with open('mem_edit/VERSION', 'r') as f:
+    version = f.read().strip()
 
 setup(name='mem_edit',
-      version=mem_edit.version,
+      version=version,
       description='Multi-platform library for memory editing',
       long_description=long_description,
       long_description_content_type='text/markdown',
@@ -50,6 +50,9 @@ setup(name='mem_edit',
             'Topic :: Utilities',
       ],
       packages=find_packages(),
+      package_data={
+          'mem_edit': ['VERSION']
+      },
       install_requires=[
             'typing',
       ],
