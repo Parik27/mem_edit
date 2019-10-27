@@ -40,7 +40,7 @@ def ptrace(command: int, pid: int = 0, arg1: int = 0, arg2: int = 0) -> int:
     """
     Call ptrace() with the provided pid and arguments. See the ```man ptrace```.
     """
-    logger.debug('ptrace({}, {}, {}, {})'.format(command, pid, arg1, arg2)) 
+    logger.debug('ptrace({}, {}, {}, {})'.format(command, pid, arg1, arg2))
     result = _ptrace(command, pid, arg1, arg2)
     if result == -1:
         err_no = ctypes.get_errno()
@@ -58,7 +58,7 @@ class Process(AbstractProcess):
         self.pid = process_id
 
     def close(self):
-        os.kill(self.pid, signal.SIGSTOP) 
+        os.kill(self.pid, signal.SIGSTOP)
         ptrace(ptrace_commands['PTRACE_DETACH'], self.pid, 0, 0)
         self.pid = None
 
@@ -78,7 +78,7 @@ class Process(AbstractProcess):
             with open('/proc/{}/cmdline', 'rb') as f:
                 return f.read().decode().split('\x00')[0]
         except FileNotFoundError:
-            return '' 
+            return ''
 
     @staticmethod
     def list_available_pids() -> List[int]:
