@@ -38,7 +38,7 @@ pip3 install git+https://mpxd.net/code/jan/mem_edit.git@release
 
 Most functions and classes are documented inline.
 To read the inline help,
-```python3
+```python
 import mem_edit
 help(mem_edit.Process)
 ```
@@ -46,7 +46,7 @@ help(mem_edit.Process)
 ## Examples
 
 Increment a magic number (unsigned long 1234567890) found in 'magic.exe':
-```python3
+```python
     import ctypes
     from mem_edit import Process
 
@@ -67,7 +67,7 @@ Increment a magic number (unsigned long 1234567890) found in 'magic.exe':
 ```
 
 Narrow down a search after a value changes:
-```python3
+```python
     import ctypes
     from mem_edit import Process
 
@@ -88,7 +88,7 @@ Narrow down a search after a value changes:
 ```
 
 Read and alter a structure:
-```python3
+```python
     import ctypes
     from mem_edit import Process
 
