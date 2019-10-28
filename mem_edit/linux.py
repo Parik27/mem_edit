@@ -15,7 +15,7 @@ from .abstract import Process as AbstractProcess
 from .utils import ctypes_buffer_t, MemEditError
 
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.CRITICAL)
 logger = logging.getLogger(__name__)
 
 
@@ -50,27 +50,45 @@ def ptrace(command: int, pid: int = 0, arg1: int = 0, arg2: int = 0) -> int:
     return result
 
 
+class iovec(ctypes.Structure):
+    _fields_ = [("iov_base", ctypes.c_void_p),
+                ("iov_len", ctypes.c_size_t)]
+
 class Process(AbstractProcess):
     pid = None
 
     def __init__(self, process_id: int):
-        ptrace(ptrace_commands['PTRACE_SEIZE'], process_id)
         self.pid = process_id
 
     def close(self):
-        os.kill(self.pid, signal.SIGSTOP)
-        ptrace(ptrace_commands['PTRACE_DETACH'], self.pid, 0, 0)
         self.pid = None
 
     def write_memory(self, base_address: int, write_buffer: ctypes_buffer_t):
-        with open('/proc/{}/mem'.format(self.pid), 'rb+') as mem:
-            mem.seek(base_address)
-            mem.write(write_buffer)
+
+        _libc.process_vm_readv(
+            self.pid,
+            (iovec * 1)(
+                iovec(ctypes.addressof(write_buffer), ctypes.sizeof(write_buffer))
+            ),
+            1,
+            (iovec * 1)(iovec(base_address, ctypes.sizeof(write_buffer))),
+            1,
+            0
+        )
 
     def read_memory(self, base_address: int, read_buffer: ctypes_buffer_t) -> ctypes_buffer_t:
-        with open('/proc/{}/mem'.format(self.pid), 'rb+') as mem:
-            mem.seek(base_address)
-            mem.readinto(read_buffer)
+
+        _libc.process_vm_readv(
+            self.pid,
+            (iovec * 1)(
+                iovec(ctypes.addressof(read_buffer), ctypes.sizeof(read_buffer))
+            ),
+            1,
+            (iovec * 1)(iovec(base_address, ctypes.sizeof(read_buffer))),
+            1,
+            0
+        )
+        
         return read_buffer
 
     def get_path(self) -> str:
