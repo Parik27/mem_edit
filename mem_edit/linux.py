@@ -126,12 +126,24 @@ class Process(AbstractProcess):
         logger.info('Found no process with name {}'.format(target_name))
         return None
 
-    def list_mapped_regions(self, writeable_only: bool = True) -> List[Tuple[int, int]]:
+    def list_mapped_regions_by_name(self,
+                                    writeable_only=True,
+                                    name=None,
+                                    include_anons=True) -> List[Tuple[int, int]]:
         regions = []
         with open('/proc/{}/maps'.format(self.pid), 'r') as maps:
             for line in maps:
-                bounds, privileges = line.split()[0:2]
 
+                bounds, privileges = line.split()[0:2]
+                
+                if (not include_anons or name is not None) and len(line.split()) < 6:
+                    continue
+
+                _name = os.path.basename(''.join(line.split()[5:]))
+                print(_name == name)
+                if name is not None and _name != name:
+                    continue
+                
                 if 'r' not in privileges:
                     continue
 

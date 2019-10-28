@@ -209,7 +209,10 @@ class Process(AbstractProcess):
         logger.info('Found no process with name {}'.format(target_name))
         return None
 
-    def list_mapped_regions(self, writeable_only: bool = True) -> List[Tuple[int, int]]:
+    def list_mapped_regions_by_name(self,
+                                    writeable_only=True,
+                                    name=None,
+                                    include_anons=True) -> List[Tuple[int, int]]:
         sys_info = SYSTEM_INFO()
         sys_info_ptr = ctypes.byref(sys_info)
         ctypes.windll.kernel32.GetSystemInfo(sys_info_ptr)

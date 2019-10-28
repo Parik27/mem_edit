@@ -171,6 +171,24 @@ class Process(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def list_mapped_regions_by_name(self,
+                                    writeable_only=True,
+                                    name=None,
+                                    include_anons=True) -> List[Tuple[int, int]]:
+        """
+        Return a list of (start_address, stop_address) for the regions of the address space
+          accessible to (readable and possibly writable by) the process with a specific name.
+        By default, this function does not return non-writeable regions.
+
+        :param writeable_only: If True, only return regions which are also writeable.
+                Default true.
+        :param name: The name of the mapped region. None for all processes
+                Default None.
+        :param include_anons: If True, also returns regions with no name (anonymous regions)
+        :return: List of (start_address, stop_address) for each accessible memory region.
+        """
+        pass
+    
     def list_mapped_regions(self, writeable_only=True) -> List[Tuple[int, int]]:
         """
         Return a list of (start_address, stop_address) for the regions of the address space
@@ -181,7 +199,9 @@ class Process(metaclass=ABCMeta):
                 Default true.
         :return: List of (start_address, stop_address) for each accessible memory region.
         """
-        pass
+
+        # Same function as this with default arguments
+        return self.list_mapped_regions_by_name()
 
     @abstractmethod
     def get_path(self) -> str:
